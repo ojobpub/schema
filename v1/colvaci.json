@@ -1,52 +1,147 @@
 {
-  "$id": "https://github.com/colvaci/schema/v1/colvaci.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "ColVaci - Collection of Job Vacancies",
-  "type": "object",
-  "properties": {
-    "jobTitle": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 255
+    "$id": "https://github.com/colvaci/schema/v1/colvaci.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ColVaci - Collecting Job Vacancies Initiative",
+    "type": "object",
+    "properties": {
+        "employer": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "location": {
+                    "description": "Employer's headquarters",
+                    "$ref": "#/$defs/location"
+                },
+                "industry": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri"
+                }
+            },
+            "required": ["name", "location"],
+            "additionalProperties": false
+        },
+        "vacancies": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/vacancy"
+            }
+        }
     },
-    "language": {
-      "description": "Language of the vacancy in ISO 639-1:2002. See https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes",
-      "type": "string",
-      "minLength": 2,
-      "maxLength": 2
-    },
-    "jobDescription": {
-      "description": "Description of the vacancy",
-      "type": "string",
-      "maxLength": 1000
-    },
-    "jobType": {
-      "type": "array",
-      "items": {
-        "type": "string",
-      }
-    },
-    "tags": {
-      "description": "Key words for the vacancy",
-      "type": "array",
-      "items": {
-        "type": "string",
-        "maxLength": 28
-      },
-      "maxItems": 8,
-      "uniqueItems": true
-    },
-    "country": {
-      "description": "Country code as ISO 3166-1 alpha-2: see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2",
-      "type": "string",
-      "minLength": 2
-      "maxLength": 2
-    },
-    "jobUrl": {
-      "description": "URL of the vacancy's full description",
-      "type": "string",
-      "format": "uri",
-  },
-  "required": ["jobTitle", "jobType", "language", "country", "jobUrl"],
-  "additionalProperties": false
+    "$defs": {
+        "location": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "description": "City",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "country": {
+                    "description": "Country code as ISO 3166-1 alpha-2: see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2",
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 2
+                }
+            }
+        },
+        "vacancy": {
+            "type": "object",
+            "properties": {
+                "language": {
+                    "description": "Language of the vacancy description as ISO 639-1:2002. See https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes",
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 2
+                },
+                "applyBefore": {
+                    "description": "Date until the vacancy is valid",
+                    "type": "string",
+                    "format": "date"
+                },
+                "jobRef": {
+                    "description": "Emloyeer's vacancy reference",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "jobTitle": {
+                    "description": "Title of the vacancy",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "jobDescription": {
+                    "description": "Description of the vacancy",
+                    "type": "string",
+                    "maxLength": 1000
+                },
+                "jobType": {
+                    "type": "string",
+                    "enum": ["permanent", "contract", "internship", "apprenticeship"]
+                },
+                "experienceLevel": {
+                    "description": "Experience level required for the vacancy",
+                    "type": "string",
+                    "enum": ["junior", "mid", "senior"]
+                },
+                "workLoad": {
+                    "description": "Expected workload in percentage for the vacancy",
+                    "type": "object",
+                    "properties": {
+                        "minPercentage": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100
+                        },
+                        "maxPercentage": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100
+                        }
+                    }
+                },
+                "workType": {
+                    "description": "Type of work for the vacancy",
+                    "type": "string",
+                    "enum": ["remote", "on-site", "hybrid"]
+                },
+                "tags": {
+                    "description": "Key words for the vacancy",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 28
+                    },
+                    "maxItems": 8,
+                    "uniqueItems": true
+                },
+                "location": {
+                    "description": "Location of the vacancy",
+                    "$ref": "#/$defs/location"
+                },
+                "jobUrl": {
+                    "description": "URL of the vacancy's full description",
+                    "type": "string",
+                    "format": "uri"
+                }
+            },
+            "required": [
+                "jobTitle",
+                "jobType",
+                "language",
+                "location",
+                "jobUrl"
+            ],
+            "additionalProperties": false
+        }
+    }
 }
