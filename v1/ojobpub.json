@@ -1,5 +1,5 @@
 {
-    "$id": "https://github.com/colvaci/schema/v1/colvaci.json",
+    "$id": "https://github.com/colvaci/schema/v1/ojobpub.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "ColVaci - Collecting Job Vacancies Initiative",
     "type": "object",
