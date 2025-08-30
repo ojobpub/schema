@@ -62,21 +62,29 @@
                     "minLength": 2,
                     "maxLength": 2
                 },
+                "datePublished": {
+                    "description": "Date when the vacancy was first published",
+                    "type": "string",
+                    "format": "date"
+                },
                 "applyBefore": {
                     "description": "Date until the vacancy is valid",
                     "type": "string",
                     "format": "date"
                 },
+                "jobCategory": {
+                    "description": "Category of the vacancy",
+                    "type": "string",
+                    "maxLength": 255
+                },
                 "jobRef": {
                     "description": "Emloyeer's vacancy reference",
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 255
                 },
                 "jobTitle": {
                     "description": "Title of the vacancy",
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 255
                 },
                 "jobDescription": {
@@ -135,6 +143,7 @@
                 }
             },
             "required": [
+                "datePublished",
                 "jobTitle",
                 "jobType",
                 "language",
