@@ -1,9 +1,19 @@
 {
     "$id": "https://github.com/ojobpub/schema/v1/ojobpub.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "oJobPub - Open Job Publishing Initiative",
     "type": "object",
     "properties": {
+        "version": {
+            "description": "Version of the oJobPub schema",
+            "type": "string",
+            "const": "1.0"
+        },
+        "lastUpdated": {
+            "description": "Date when the oJobPub feed was last updated",
+            "type": "string",
+            "format": "date-time"
+        },
         "employer": {
             "type": "object",
             "properties": {
@@ -36,6 +46,13 @@
             }
         }
     },
+    "required": [
+        "version",
+        "lastUpdated",
+        "employer",
+        "vacancies"
+    ],
+    "additionalProperties": false,
     "$defs": {
         "location": {
             "type": "object",
@@ -67,6 +84,16 @@
                     "type": "string",
                     "format": "date"
                 },
+                "startDate": {
+                    "description": "Date when the job starts",
+                    "type": "string",
+                    "format": "date"
+                },
+                "endDate": {
+                    "description": "Date when the job ends",
+                    "type": "string",
+                    "format": "date"
+                },
                 "applyBefore": {
                     "description": "Date until the vacancy is valid",
                     "type": "string",
@@ -94,12 +121,12 @@
                 },
                 "jobType": {
                     "type": "string",
-                    "enum": ["permanent", "contract", "internship", "apprenticeship"]
+                    "enum": ["permanent", "contract", "internship", "apprenticeship", "temporary", "volunteer", "freelance"]
                 },
                 "experienceLevel": {
                     "description": "Experience level required for the vacancy",
                     "type": "string",
-                    "enum": ["junior", "mid", "senior"]
+                    "enum": ["junior", "mid", "senior", "lead", "manager", "director", "executive"]
                 },
                 "workLoad": {
                     "description": "Expected workload in percentage for the vacancy",
@@ -122,6 +149,34 @@
                     "type": "string",
                     "enum": ["remote", "on-site", "hybrid"]
                 },
+                "salary": {
+                    "description": "Salary range for the vacancy",
+                    "type": "object",
+                    "properties": {
+                        "min": {
+                            "description": "Minimum salary to expect",
+                            "type": "number",
+                            "minimum": 0
+
+                        },
+                        "max": {
+                            "description": "Maximum salary to expect",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "currency": {
+                            "description": "Currency as ISO 4217: see https://en.wikipedia.org/wiki/ISO_4217",
+                            "type": "string",
+                            "minLength": 3,
+                            "maxLength": 3
+                        },
+                        "interval": {
+                            "description": "Min/max salary interval, e.g. per hour, per month, per year",
+                            "type": "string",
+                            "enum": ["hourly", "daily", "weekly", "monthly", "yearly"]
+                        }
+                    }
+                },
                 "tags": {
                     "description": "Key words for the vacancy",
                     "type": "array",
@@ -129,7 +184,7 @@
                         "type": "string",
                         "maxLength": 28
                     },
-                    "maxItems": 8,
+                    "maxItems": 16,
                     "uniqueItems": true
                 },
                 "location": {
